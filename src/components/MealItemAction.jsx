@@ -1,15 +1,20 @@
 import styled from "styled-components";
 
 import { Button } from "./UI/Button";
-export const MealItemAction = () => {
+export const MealItemAction = ({ ref }) => {
   return (
     <div>
       <div>
         <StyledLabel htmlFor="">Amount</StyledLabel>
-        <StyledInput type="number" />
+        <StyledInput
+          type="number"
+          ref={ref}
+          defaultValue="1"
+          //  value={ref.current.value}
+        />
       </div>
       <ButtonContainer>
-        <Button variant="Addplus" title="Add" />
+        <Button type="submit" variant="Addplus" title="Add" />
       </ButtonContainer>
     </div>
   );

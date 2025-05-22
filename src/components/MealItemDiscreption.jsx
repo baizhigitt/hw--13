@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+
+
+// Компонент MealItemDescription отображает цену и описание блюда
+
 export const MealItemDiscreption = ({ description, title, price }) => {
   return (
     <div>

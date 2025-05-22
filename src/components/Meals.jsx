@@ -3,6 +3,7 @@ import { MealItem } from "./MealItem";
 
 // statless components
 export const Meals = (props) => {
+  // Принимает  props = {meals} App.jsx;
   const { meals } = props;
 
   return (

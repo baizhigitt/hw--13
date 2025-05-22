@@ -1,16 +1,41 @@
 import VectorIcon from "../assets/Vector.svg";
-import styled from "styled-components";
-
+import styled, { css, keyframes } from "styled-components";
+import { useContext, useState } from "react";
+import { BasketContext } from "../store/BasketProvider";
+import { useEffect } from "react";
+// defaultProps
 export const Header = (props) => {
-  const { mealsCount = 0 } = props;
+  const { onOpen } = props;
+  const [animation, setAnimation] = useState(false);
+
+  const { meals } = useContext(BasketContext);
+
+  const mealCountReduce = meals.reduce((prev, curr) => {
+    return prev + +curr.amount;
+  }, 0);
+
+  useEffect(() => {
+    setAnimation(true);
+    const timer = setTimeout(() => {
+      setAnimation(false);
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [meals]);
+
   return (
     <StyledHeader>
       <Wrapper>
         <Title>ReactMeals</Title>
-        <BasketWrapper>
+
+        <BasketWrapper onClick={onOpen} animation={animation}>
+          {/*  При нажатии на YourCard срабатывает onClick, который с помощью
+          useState открывает Modal */}
           <img src={VectorIcon} alt="" />
           <YourCardDiv>Your Cart</YourCardDiv>
-          <CountOfMeals>{mealsCount}</CountOfMeals>
+          <CountOfMeals>{mealCountReduce}</CountOfMeals>
         </BasketWrapper>
       </Wrapper>
     </StyledHeader>
@@ -40,6 +65,28 @@ const Title = styled.h1`
   font-weight: 600;
 `;
 
+function animate(props) {
+  const { animation } = props;
+
+  if (!animation) {
+    return css``;
+  }
+  return css`
+    animation: ${jumping} 0.1s linear infinite alternate-reverse;
+  `;
+}
+
+const jumping = keyframes`
+from {
+  transform:translateY(-5px);
+} 
+
+to{
+  transform:translateY(5px);
+}
+
+`;
+
 const BasketWrapper = styled.div`
   background: ${({ theme }) => theme.colors.darkCherry};
   border-radius: 30px;
@@ -47,6 +94,9 @@ const BasketWrapper = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+  img {
+    ${animate}
+  }
 `;
 
 const YourCardDiv = styled.div`

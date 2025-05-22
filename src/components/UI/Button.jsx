@@ -125,9 +125,20 @@ const BUTTON_VARIANT = {
   },
 };
 
-export const Button = ({ variant, disabled, title }) => {
+export const Button = ({
+  variant,
+  disabled,
+  title,
+  onClick,
+  type = "text",
+}) => {
   return (
-    <MyButton variant={variant} disabled={disabled}>
+    <MyButton
+      type={type}
+      variant={variant}
+      disabled={disabled}
+      onClick={onClick}
+    >
       {title}
     </MyButton>
   );
